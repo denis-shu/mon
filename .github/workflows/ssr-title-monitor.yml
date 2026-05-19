@@ -5,22 +5,30 @@ on:
     - cron: "17 * * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   check-title:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check SSR title
+      - uses: actions/checkout@v4
+
+      - name: Check SSR titles
         shell: pwsh
         run: |
           $sites = @(
-                "https://limon-credit.com.ua/uk",
-                "https://limon-credit.com.ua/ru",
-                "https://moneyveo.ua/uk",
-                "https://moneyveo.ua/ru",
-                "https://freestyle-credit.com.ua/uk",                
-                "https://freestyle-credit.com.ua/ru"
+		  "https://limon-credit.com.ua/uk",
+          "https://limon-credit.com.ua/ru",
+          "https://moneyveo.ua/uk",
+          "https://moneyveo.ua/ru",
+          "https://freestyle-credit.com.ua/uk",                
+          "https://freestyle-credit.com.ua/ru"
           )
+
+          $stateFile = "ssr-title-state.json"
+          $logFile = "ssr-title-monitor.log"
 
           $headers = @{
               "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
@@ -30,22 +38,67 @@ jobs:
               "Pragma" = "no-cache"
           }
 
+          if (Test-Path $stateFile) {
+              $state = Get-Content $stateFile -Raw | ConvertFrom-Json -AsHashtable
+          } else {
+              $state = @{}
+          }
+
+          function Write-MonitorLog($message) {
+              $time = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+              "$time $message" | Tee-Object -FilePath $logFile -Append
+          }
+
+          function Get-SsrTitleTag($url) {
+              $response = Invoke-WebRequest `
+                  -Uri $url `
+                  -Headers $headers `
+                  -TimeoutSec 20 `
+                  -MaximumRedirection 5
+
+              $html = $response.Content
+
+              if ($html -match '(?is)(<title[^>]*>.*?</title>)') {
+                  return $matches[1].Trim()
+              }
+
+              return $null
+          }
+
+          Write-MonitorLog "=== Run started ==="
+
           foreach ($site in $sites) {
               try {
-                  $response = Invoke-WebRequest -Uri $site -Headers $headers -TimeoutSec 20 -MaximumRedirection 5
-                  $html = $response.Content
+                  $titleTag = Get-SsrTitleTag $site
+                  $oldTitleTag = $state[$site]
 
-                  if ($html -match '(?is)(<title[^>]*>.*?</title>)') {
-                      $titleTag = $matches[1].Trim()
-                      Write-Host "[OK] $site"
-                      Write-Host $titleTag
+                  if ($titleTag -ne $oldTitleTag) {
+                      Write-MonitorLog "[SSR TITLE CHANGED] $site"
+                      Write-MonitorLog "OLD: $oldTitleTag"
+                      Write-MonitorLog "NEW: $titleTag"
+
+                      $state[$site] = $titleTag
                   } else {
-                      Write-Host "[TITLE NOT FOUND] $site"
-                      exit 1
+                      Write-MonitorLog "[OK] $site | $titleTag"
                   }
               }
               catch {
-                  Write-Host "[ERROR] $site | $_"
-                  exit 1
+                  Write-MonitorLog "[ERROR] $site | $_"
               }
           }
+
+          $state | ConvertTo-Json -Depth 10 | Set-Content $stateFile -Encoding UTF8
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add ssr-title-state.json ssr-title-monitor.log
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update SSR title monitor results"
+            git push
+          fi
