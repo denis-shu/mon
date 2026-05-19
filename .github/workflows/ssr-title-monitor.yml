@@ -19,12 +19,12 @@ jobs:
         shell: pwsh
         run: |
           $sites = @(
-		  "https://limon-credit.com.ua/uk",
-          "https://limon-credit.com.ua/ru",
-          "https://moneyveo.ua/uk",
-          "https://moneyveo.ua/ru",
-          "https://freestyle-credit.com.ua/uk",                
-          "https://freestyle-credit.com.ua/ru"
+              "https://limon-credit.com.ua/uk",
+              "https://limon-credit.com.ua/ru",
+              "https://moneyveo.ua/uk",
+              "https://moneyveo.ua/ru",
+              "https://freestyle-credit.com.ua/uk",
+              "https://freestyle-credit.com.ua/ru"
           )
 
           $stateFile = "ssr-title-state.json"
