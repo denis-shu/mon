@@ -65,7 +65,7 @@ jobs:
               return $null
           }
 
-          Write-MonitorLog "=== Run started ==="
+          Write-MonitorLog "=== I hope you know I pack a chainsaw ==="
 
           foreach ($site in $sites) {
               try {
