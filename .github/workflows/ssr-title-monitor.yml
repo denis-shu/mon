@@ -1,0 +1,51 @@
+name: SSR Title Monitor
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+jobs:
+  check-title:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check SSR title
+        shell: pwsh
+        run: |
+          $sites = @(
+                "https://limon-credit.com.ua/uk",
+                "https://limon-credit.com.ua/ru",
+                "https://moneyveo.ua/uk",
+                "https://moneyveo.ua/ru",
+                "https://freestyle-credit.com.ua/uk",                
+                "https://freestyle-credit.com.ua/ru"
+          )
+
+          $headers = @{
+              "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+              "Accept" = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+              "Accept-Language" = "uk-UA,uk;q=0.9"
+              "Cache-Control" = "no-cache"
+              "Pragma" = "no-cache"
+          }
+
+          foreach ($site in $sites) {
+              try {
+                  $response = Invoke-WebRequest -Uri $site -Headers $headers -TimeoutSec 20 -MaximumRedirection 5
+                  $html = $response.Content
+
+                  if ($html -match '(?is)(<title[^>]*>.*?</title>)') {
+                      $titleTag = $matches[1].Trim()
+                      Write-Host "[OK] $site"
+                      Write-Host $titleTag
+                  } else {
+                      Write-Host "[TITLE NOT FOUND] $site"
+                      exit 1
+                  }
+              }
+              catch {
+                  Write-Host "[ERROR] $site | $_"
+                  exit 1
+              }
+          }
