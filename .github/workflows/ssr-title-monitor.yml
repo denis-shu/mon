@@ -8,8 +8,13 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: ssr-title-monitor
+  cancel-in-progress: true
+
 jobs:
   check-title:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
 
     steps:
@@ -29,6 +34,7 @@ jobs:
 
           $stateFile = "ssr-title-state.json"
           $logFile = "ssr-title-monitor.log"
+          $hasChanges = $false
 
           $headers = @{
               "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
@@ -65,8 +71,6 @@ jobs:
               return $null
           }
 
-          Write-MonitorLog "=== I hope you know I pack a chainsaw ==="
-
           foreach ($site in $sites) {
               try {
                   $titleTag = Get-SsrTitleTag $site
@@ -78,19 +82,30 @@ jobs:
                       Write-MonitorLog "NEW: $titleTag"
 
                       $state[$site] = $titleTag
+                      $hasChanges = $true
                   } else {
-                      Write-MonitorLog "[OK] $site | $titleTag"
+                      Write-Host "[OK] $site | $titleTag"
                   }
               }
               catch {
                   Write-MonitorLog "[ERROR] $site | $_"
+                  $hasChanges = $true
               }
           }
 
           $state | ConvertTo-Json -Depth 10 | Set-Content $stateFile -Encoding UTF8
 
+          if ($hasChanges) {
+              "true" | Set-Content ".has-changes"
+          }
+
       - name: Commit results
         run: |
+          if [ ! -f ".has-changes" ]; then
+            echo "No SSR title changes. Nothing to commit."
+            exit 0
+          fi
+
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
 
