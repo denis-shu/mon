@@ -122,3 +122,241 @@
 
 2026-05-31 22:14:26 [ERROR] https://freestyle-credit.com.ua/ru | 404 page not found
 
+2026-05-31 23:19:17 [ERROR] https://moneyveo.ua/uk | 
+  
+     
+     
+  
+
+
+moneyveo.ua | 502: Bad gateway
+
+
+
+
+
+
+
+
+
+    
+        
+            
+                Bad gateway
+                Error code 502
+            
+            
+                Visit cloudflare.com for more information.
+            
+            2026-05-31 23:19:17 UTC
+        
+        
+            
+                
+                    
+  
+    
+    
+    
+    
+  
+  You
+  
+  
+    Browser
+  
+  
+  
+  Working
+  
+
+                    
+  
+    
+    
+    
+    
+  
+  Ashburn
+  
+  
+    Cloudflare
+  
+  
+  
+  Working
+  
+
+                    
+  
+    
+    
+    
+    
+  
+  moneyveo.ua
+  
+  
+    Host
+  
+  
+  
+  Error
+  
+
+                
+            
+        
+
+        
+            
+                
+                    What happened?
+                    The web server reported a bad gateway error.
+                
+                
+                    What can I do?
+                    Please try again in a few minutes.
+                
+            
+        
+
+        
+    
+      Cloudflare Ray ID: a049b3dc3bf60b2a
+      &bull;
+      
+        Your IP:
+        Click to reveal
+        52.226.124.20
+        &bull;
+      
+      Performance &amp; security by Cloudflare
+      
+    
+    (function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();
+  
+
+    
+
+
+
+2026-05-31 23:19:17 [ERROR] https://moneyveo.ua/ru | 
+  
+     
+     
+  
+
+
+moneyveo.ua | 502: Bad gateway
+
+
+
+
+
+
+
+
+
+    
+        
+            
+                Bad gateway
+                Error code 502
+            
+            
+                Visit cloudflare.com for more information.
+            
+            2026-05-31 23:19:17 UTC
+        
+        
+            
+                
+                    
+  
+    
+    
+    
+    
+  
+  You
+  
+  
+    Browser
+  
+  
+  
+  Working
+  
+
+                    
+  
+    
+    
+    
+    
+  
+  Ashburn
+  
+  
+    Cloudflare
+  
+  
+  
+  Working
+  
+
+                    
+  
+    
+    
+    
+    
+  
+  moneyveo.ua
+  
+  
+    Host
+  
+  
+  
+  Error
+  
+
+                
+            
+        
+
+        
+            
+                
+                    What happened?
+                    The web server reported a bad gateway error.
+                
+                
+                    What can I do?
+                    Please try again in a few minutes.
+                
+            
+        
+
+        
+    
+      Cloudflare Ray ID: a049b3de9eaff2b9
+      &bull;
+      
+        Your IP:
+        Click to reveal
+        52.226.124.20
+        &bull;
+      
+      Performance &amp; security by Cloudflare
+      
+    
+    (function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();
+  
+
+    
+
+
+
