@@ -116,3 +116,9 @@
 2026-05-26 16:53:11 [SSR TITLE CHANGED] https://limon-credit.com.ua/uk
 2026-05-26 16:53:11 OLD: <title>Онлайн мікрокредити на картку в Україні: 24/7 без довідок | Limon Credit</title>
 2026-05-26 16:53:11 NEW: <title>Взяти онлайн мікрокредит на картку в Україні: 24/7 без довідок | Limon Credit</title>
+2026-05-31 22:14:05 [ERROR] https://moneyveo.ua/uk | The request was canceled due to the configured HttpClient.Timeout of 20 seconds elapsing.
+2026-05-31 22:14:25 [ERROR] https://moneyveo.ua/ru | The request was canceled due to the configured HttpClient.Timeout of 20 seconds elapsing.
+2026-05-31 22:14:25 [ERROR] https://freestyle-credit.com.ua/uk | 404 page not found
+
+2026-05-31 22:14:26 [ERROR] https://freestyle-credit.com.ua/ru | 404 page not found
+
